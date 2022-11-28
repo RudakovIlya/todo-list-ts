@@ -1,8 +1,27 @@
 .App {
-  padding: 30px;
-  display: flex;
+    padding: 30px;
+    display: flex;
 }
 
 .App > div {
-  margin-right: 50px;
+    margin-right: 50px;
+}
+
+.btn-active {
+    background-color: darkslateblue;
+    color: #FFFFFF;
+}
+
+.task-done {
+    font-weight: 600;
+    color: rebeccapurple;
+}
+
+.error {
+    color: red;
+}
+
+.error-input {
+    outline: none;
+    border: 2px solid red;
 }
