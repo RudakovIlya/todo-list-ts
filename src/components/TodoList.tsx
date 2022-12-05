@@ -11,15 +11,17 @@ type TodoListPropsType = {
     changeStatus: (taskId: string, isDone: boolean) => void
 };
 
-const TodoList = (props: TodoListPropsType) => {
+const TodoList: React.FC<TodoListPropsType> = (props) => {
 
-    const [title, setTitle] = useState<string>('');
+    const {title, tasks, filter, removeTask, changeTodoListFilter, addTask, changeStatus} = props
+
+    const [titleTask, setTitle] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
 
-    const addTask = () => {
-        const trimmedTitle = title.trim()
+    const addTaskCallback = () => {
+        const trimmedTitle = titleTask.trim()
         if (trimmedTitle) {
-            props.addTask(trimmedTitle);
+            addTask(trimmedTitle);
             setTitle('');
         } else {
             setError(true);
@@ -27,7 +29,7 @@ const TodoList = (props: TodoListPropsType) => {
     }
 
     const onKeyDownInputHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        event.key === 'Enter' && addTask();
+        event.key === 'Enter' && addTaskCallback();
     }
 
     const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -36,32 +38,32 @@ const TodoList = (props: TodoListPropsType) => {
         error && setError(false);
     }
 
-    const onClickHandlerCreator = (filter: FilterValuesType) => () => props.changeTodoListFilter(filter);
+    const onClickHandlerCreator = (filter: FilterValuesType) => () => changeTodoListFilter(filter);
 
-    const tasksElements = props.tasks.length ?
-        <ul>{props.tasks.map((task: TaskType) => {
-            const removeTask = () => props.removeTask(task.id)
-            const changeTaskStatus = (event: ChangeEvent<HTMLInputElement>) => props.changeStatus(task.id, event.currentTarget.checked)
+    const tasksElements = tasks.length ?
+        <ul>{tasks.map((task: TaskType) => {
+            const removeTaskCallback = () => removeTask(task.id)
+            const changeTaskStatus = (event: ChangeEvent<HTMLInputElement>) => changeStatus(task.id, event.currentTarget.checked)
             return (
                 <li key={task.id}>
                     <input type="checkbox" checked={task.isDone} onChange={changeTaskStatus}/>
                     <span className={task.isDone ? 'task-done' : ''}>{task.title} &nbsp;</span>
-                    <button onClick={removeTask}>&times;</button>
+                    <button onClick={removeTaskCallback}>&times;</button>
                 </li>
             )
         })}</ul> : <span>List is empty!</span>;
 
     return (
         <div>
-            <h3>{props.title}</h3>
+            <h3>{title}</h3>
             <div>
                 <input
                     className={error ? 'error-input' : ''}
-                    value={title}
+                    value={titleTask}
                     onChange={onChangeInputHandler}
                     onKeyDown={onKeyDownInputHandler}
                 />
-                <button onClick={addTask}>+</button>
+                <button onClick={addTaskCallback}>+</button>
                 {error && <div className={'error'}>{'Please, enter task title!'}</div>}
             </div>
 
@@ -69,17 +71,17 @@ const TodoList = (props: TodoListPropsType) => {
 
             <div>
                 <button
-                    className={props.filter === 'all' ? 'btn-active' : ''}
+                    className={filter === 'all' ? 'btn-active' : ''}
                     onClick={onClickHandlerCreator('all')}>
                     All
                 </button>
                 <button
-                    className={props.filter === 'active' ? 'btn-active' : ''}
+                    className={filter === 'active' ? 'btn-active' : ''}
                     onClick={onClickHandlerCreator('active')}>
                     Active
                 </button>
                 <button
-                    className={props.filter === 'completed' ? 'btn-active' : ''}
+                    className={filter === 'completed' ? 'btn-active' : ''}
                     onClick={onClickHandlerCreator('completed')}>
                     Completed
                 </button>

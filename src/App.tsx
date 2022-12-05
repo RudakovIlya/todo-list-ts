@@ -35,12 +35,15 @@ function App() {
         const updateTasks = tasks.filter(task => task.id !== taskId);
         setTasks(updateTasks);
     };
+
     const addTask = (title: string) => {
         setTasks([...tasks, {id: v1(), title, isDone: false}])
     }
+
     const changeTodoListFilter = (nextFilterValue: FilterValuesType) => {
         setFilter(nextFilterValue);
     };
+
     const getFilterTasks = (filter: FilterValuesType, tasks: TaskType[]): TaskType[] => {
         switch (filter) {
             case "completed":
@@ -51,6 +54,7 @@ function App() {
                 return tasks
         }
     }
+
     const changeStatus = (taskId: string, isDone: boolean) => {
         setTasks(tasks.map(t => t.id === taskId ? {...t, isDone: isDone} : t))
     }
