@@ -1,19 +1,37 @@
 import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
-import {FilterValuesType, TaskType} from "../App";
+import {FilterValuesType} from "../App";
+
+export type TaskType = {
+    id: string,
+    title: string,
+    isDone: boolean,
+}
 
 type TodoListPropsType = {
+    todoListID: string
     title: string,
     filter: FilterValuesType
     tasks: Array<TaskType>,
-    removeTask: (taskId: string) => void,
-    changeTodoListFilter: (nextFilterValue: FilterValuesType) => void,
-    addTask: (title: string) => void
-    changeStatus: (taskId: string, isDone: boolean) => void
+    removeTask: (todoListID: string, taskId: string) => void,
+    changeTodoListFilter: (todoListID: string, filter: FilterValuesType) => void
+    addTask: (todoListID: string, title: string) => void
+    changeStatus: (todoListID: string, taskId: string, isDone: boolean) => void
+    removeTodoList: (todoListID: string) => void
 };
 
 const TodoList: React.FC<TodoListPropsType> = (props) => {
 
-    const {title, tasks, filter, removeTask, changeTodoListFilter, addTask, changeStatus} = props
+    const {
+        title,
+        tasks,
+        filter,
+        removeTask,
+        changeTodoListFilter,
+        addTask,
+        changeStatus,
+        todoListID,
+        removeTodoList
+    } = props
 
     const [titleTask, setTitle] = useState<string>('');
     const [error, setError] = useState<boolean>(false);
@@ -21,7 +39,7 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
     const addTaskCallback = () => {
         const trimmedTitle = titleTask.trim()
         if (trimmedTitle) {
-            addTask(trimmedTitle);
+            addTask(todoListID, trimmedTitle);
             setTitle('');
         } else {
             setError(true);
@@ -38,12 +56,12 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
         error && setError(false);
     }
 
-    const onClickHandlerCreator = (filter: FilterValuesType) => () => changeTodoListFilter(filter);
+    const onClickHandlerCreator = (filter: FilterValuesType) => () => changeTodoListFilter(todoListID, filter);
 
     const tasksElements = tasks.length ?
         <ul>{tasks.map((task: TaskType) => {
-            const removeTaskCallback = () => removeTask(task.id)
-            const changeTaskStatus = (event: ChangeEvent<HTMLInputElement>) => changeStatus(task.id, event.currentTarget.checked)
+            const removeTaskCallback = () => removeTask(todoListID, task.id)
+            const changeTaskStatus = (event: ChangeEvent<HTMLInputElement>) => changeStatus(todoListID, task.id, event.currentTarget.checked)
             return (
                 <li key={task.id}>
                     <input type="checkbox" checked={task.isDone} onChange={changeTaskStatus}/>
@@ -53,9 +71,15 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
             )
         })}</ul> : <span>List is empty!</span>;
 
+    const removeTodoListCallback = () => {
+        removeTodoList(todoListID)
+    }
+
     return (
         <div>
-            <h3>{title}</h3>
+            <h3>{title}
+                <button onClick={removeTodoListCallback}>&times;</button>
+            </h3>
             <div>
                 <input
                     className={error ? 'error-input' : ''}
