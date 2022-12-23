@@ -20,7 +20,7 @@ export type TodoListsType = {
     filter: FilterValuesType
 }
 
-type TasksType = {
+export type TasksType = {
     [key: string]: TaskType[]
 }
 
