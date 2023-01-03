@@ -1,7 +1,7 @@
 import {v1} from "uuid";
-import {TasksType} from "../App";
-import {addTodoListAC} from "./todoListReducer";
-import {addTaskAC, changTaskStatusAC, changTaskTitleAC, removeTaskAC, tasksReducer} from "./tasksReducer";
+import {TasksType} from "../../App";
+import {addTodoListAC} from "../todoListReducer";
+import {addTaskAC, changTaskStatusAC, changTaskTitleAC, removeTaskAC, tasksReducer} from "../tasksReducer";
 
 test('correct task should be deleted from correct array', () => {
     const todoListID1 = v1();
