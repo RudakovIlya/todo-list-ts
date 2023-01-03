@@ -2,7 +2,7 @@
   "name": "it-incubator-todolist-ts",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://RudakovIlya.github.io/todo-list-ts",
+  "homepage": "https://RudakovIlya.github.io/todo-list",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
