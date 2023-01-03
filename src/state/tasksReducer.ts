@@ -1,4 +1,4 @@
-import {TasksType} from "../../App";
+import {TasksType} from "../App";
 import {addTodoListAC, removeTodoListAC} from "./todoListReducer";
 
 export const tasksReducer = (state: TasksType, action: AllActionsType): TasksType => {
@@ -36,7 +36,7 @@ export const tasksReducer = (state: TasksType, action: AllActionsType): TasksTyp
         case "ADD-TODOLIST":
             return {
                 ...state,
-                [action.payload.todoListId]: []
+                [action.payload.todoListID]: []
             }
         case "REMOVE-TODOLIST":
             const copy = {...state};

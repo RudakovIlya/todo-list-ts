@@ -98,6 +98,7 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
         editTodoListTitle(todoListID, title)
     }
 
+
     return (
         <div>
             <h3>
@@ -111,14 +112,23 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
             <List>{tasksElements}</List>
 
             <div style={{marginTop: 15, display: 'flex', columnGap: 15}}>
-                <Button variant={filter === 'all' ? 'contained' : 'text'}
+                <Button style={{
+                    background: filter === 'all' ? '#000000' : 'inherit',
+                    border: '1px solid #000000',
+                }}
+                        variant={filter === 'all' ? 'outlined' : 'contained'}
                         onClick={onClickHandlerCreator('all')}>All
                 </Button>
-                <Button color={'primary'} variant={filter === 'active' ? 'contained' : 'text'}
+                <Button style={{background: filter === 'active' ? '#000000' : 'inherit', border: '1px solid #000000'}}
+                        color={'primary'}
+                        variant={filter === 'active' ? 'outlined' : 'contained'}
                         onClick={onClickHandlerCreator('active')}>Active
                 </Button>
-                <Button color={'secondary'} variant={filter === 'completed' ? 'contained' : 'text'}
-                        onClick={onClickHandlerCreator('completed')}>Completed
+                <Button
+                    style={{background: filter === 'completed' ? '#000000' : 'inherit', border: '1px solid #000000'}}
+                    color={'secondary'}
+                    variant={filter === 'completed' ? 'outlined' : 'contained'}
+                    onClick={onClickHandlerCreator('completed')}>Completed
                 </Button>
             </div>
         </div>

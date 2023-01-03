@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {TasksType} from "../../App";
+import {TasksType} from "../App";
 import {addTodoListAC} from "./todoListReducer";
 import {addTaskAC, changTaskStatusAC, changTaskTitleAC, removeTaskAC, tasksReducer} from "./tasksReducer";
 
