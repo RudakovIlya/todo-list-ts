@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import TodoList, {TaskType} from "./components/TodoList";
+import TodoList from "./components/TodoList";
 import {v1} from "uuid";
 import AddItemForm from "./components/AddItemForm";
 import AppBar from '@mui/material/AppBar';
@@ -11,23 +11,11 @@ import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
+import {FilterValuesType, todoListID1, todoListID2, TodoListsType} from "./state/todoListReducer";
+import {TasksType, TaskType} from "./state/tasksReducer";
 
-export type FilterValuesType = 'all' | 'active' | 'completed';
-
-export type TodoListsType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
-
-export type TasksType = {
-    [key: string]: TaskType[]
-}
 
 function App() {
-
-    const todoListID1 = v1();
-    const todoListID2 = v1();
 
     const [todoLists, setTodoLists] = useState<TodoListsType[]>([
         {id: todoListID1, title: 'What to learn', filter: 'active'},

@@ -1,5 +1,4 @@
 import React, {ChangeEvent} from 'react';
-import {FilterValuesType} from "../App";
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
 import Button from "@mui/material/Button";
@@ -10,18 +9,14 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import List from "@mui/material/List";
-
-export type TaskType = {
-    id: string,
-    title: string,
-    isDone: boolean,
-}
+import {TaskType} from "../state/tasksReducer";
+import {FilterValuesType} from "../state/todoListReducer";
 
 type TodoListPropsType = {
     todoListID: string
     title: string,
     filter: FilterValuesType
-    tasks: Array<TaskType>,
+    tasks: TaskType[],
     removeTask: (todoListID: string, taskId: string) => void,
     changeTodoListFilter: (todoListID: string, filter: FilterValuesType) => void
     addTask: (todoListID: string, title: string) => void

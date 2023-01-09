@@ -1,8 +1,47 @@
-import {TasksType} from "../App";
-import {addTodoListAC, removeTodoListAC} from "./todoListReducer";
+import {addTodoListAC, removeTodoListAC, todoListID1, todoListID2} from "./todoListReducer";
 import {v1} from "uuid";
 
-export const tasksReducer = (state: TasksType, action: AllActionsType): TasksType => {
+export type TaskType = {
+    id: string,
+    title: string,
+    isDone: boolean,
+}
+export type TasksType = {
+    [key: string]: TaskType[]
+}
+
+const initialState: TasksType = {
+    [todoListID1]: [
+        {
+            id: v1(), title: 'HTML & CSS', isDone: true,
+        },
+        {
+            id: v1(), title: 'JS', isDone: true,
+        },
+        {
+            id: v1(), title: 'React', isDone: false,
+        },
+        {
+            id: v1(), title: 'TypeScript', isDone: false,
+        },
+    ],
+    [todoListID2]: [
+        {
+            id: v1(), title: 'HTML & CSS', isDone: true,
+        },
+        {
+            id: v1(), title: 'JS', isDone: true,
+        },
+        {
+            id: v1(), title: 'React', isDone: false,
+        },
+        {
+            id: v1(), title: 'TypeScript', isDone: false,
+        },
+    ],
+}
+
+export const tasksReducer = (state: TasksType = initialState, action: AllActionsType): TasksType => {
     switch (action.type) {
         case 'REMOVE-TASK':
             return {
