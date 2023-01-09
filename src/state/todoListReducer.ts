@@ -8,15 +8,7 @@ export type TodoListsType = {
     filter: FilterValuesType
 }
 
-export const todoListID1 = v1();
-export const todoListID2 = v1();
-
-const initialState: TodoListsType[] = [
-    {id: todoListID1, title: 'What to learn', filter: 'active'},
-    {id: todoListID2, title: 'What to buy', filter: 'active'},
-]
-
-export const todoListReducer = (state: TodoListsType[] = initialState, action: AllActionsType): TodoListsType[] => {
+export const todoListReducer = (state: TodoListsType[] = [], action: AllActionsType): TodoListsType[] => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter(stateItem => stateItem.id !== action.payload.todoListID)

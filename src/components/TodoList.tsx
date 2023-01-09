@@ -1,18 +1,15 @@
-import React, {ChangeEvent, FC, memo} from 'react';
+import React, {FC, memo, useCallback, useMemo} from 'react';
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
 import Button from "@mui/material/Button";
 import Delete from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
-import Checkbox from '@mui/material/Checkbox'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import List from "@mui/material/List";
 import {TaskType} from "../state/tasksReducer";
 import {FilterValuesType} from "../state/todoListReducer";
 import {useAppSelector} from "../state/hooks/hooks";
 import {filteredTaskSelector} from "../state/selectors/tasksSelector";
+import {Task} from "./Task";
 
 type TodoListPropsType = {
     todoListID: string
@@ -44,54 +41,26 @@ const TodoList: FC<TodoListPropsType> = memo((props) => {
 
     const tasks = useAppSelector((state) => filteredTaskSelector(state.tasks[todoListID], filter))
 
-    const onClickHandlerCreator = (filter: FilterValuesType) => () => changeTodoListFilter(todoListID, filter);
+    const onClickHandlerCreator = useCallback((filter: FilterValuesType) => () => changeTodoListFilter(todoListID, filter), [changeTodoListFilter, todoListID]);
 
-    const tasksElements = tasks.map((task: TaskType) => {
-
-        const removeTaskCallback = () => removeTask(todoListID, task.id)
-
-        const changeTaskStatusCallback = (event: ChangeEvent<HTMLInputElement>) => changeTaskStatus(todoListID, task.id, event.currentTarget.checked)
-
-        const changeTitle = (title: string) => {
-            changTaskTitle(todoListID, task.id, title)
-        }
-
+    const tasksElements = useMemo(() => tasks.map((task: TaskType) => {
         return (
-            <ListItem
-                key={task.id}
-                secondaryAction={
-                    <IconButton onClick={removeTaskCallback} aria-label="delete">
-                        <Delete/>
-                    </IconButton>
-                }
-                disablePadding
-            >
-                <ListItemButton dense>
-                    <ListItemIcon>
-                        <Checkbox
-                            disableRipple
-                            color="primary"
-                            checked={task.isDone}
-                            onChange={changeTaskStatusCallback}
-                        />
-                    </ListItemIcon>
-                    <EditableSpan title={task.title} changeTitle={changeTitle}/>
-                </ListItemButton>
-            </ListItem>
+            <Task key={task.id} task={task} changTaskTitle={changTaskTitle} changeTaskStatus={changeTaskStatus}
+                  todoListID={todoListID} removeTask={removeTask}/>
         )
-    })
+    }), [changeTaskStatus, changTaskTitle, removeTask, tasks, todoListID])
 
-    const removeTodoListCallback = () => {
+    const removeTodoListCallback = useCallback(() => {
         removeTodoList(todoListID)
-    }
+    }, [removeTodoList, todoListID])
 
-    const addTaskCallback = (title: string) => {
+    const addTaskCallback = useCallback((title: string) => {
         addTask(todoListID, title)
-    }
+    }, [addTask, todoListID])
 
-    const changeTodoListTitle = (title: string) => {
+    const changeTodoListTitle = useCallback((title: string) => {
         editTodoListTitle(todoListID, title)
-    }
+    }, [editTodoListTitle, todoListID])
 
     return (
         <div>

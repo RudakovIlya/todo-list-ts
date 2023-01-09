@@ -8,6 +8,7 @@ type AddItemFormPropsType = {
 }
 
 const AddItemForm: FC<AddItemFormPropsType> = memo(({addItem}) => {
+
     const [error, setError] = useState<boolean>(false);
     const [titleTask, setTitle] = useState<string>('');
 
