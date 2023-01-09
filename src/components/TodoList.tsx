@@ -11,7 +11,6 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import List from "@mui/material/List";
 
-
 export type TaskType = {
     id: string,
     title: string,
@@ -49,7 +48,6 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
     } = props
 
     const onClickHandlerCreator = (filter: FilterValuesType) => () => changeTodoListFilter(todoListID, filter);
-
 
     const tasksElements = tasks.map((task: TaskType) => {
 
@@ -97,7 +95,6 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
     const changeTodoListTitle = (title: string) => {
         editTodoListTitle(todoListID, title)
     }
-
 
     return (
         <div>
