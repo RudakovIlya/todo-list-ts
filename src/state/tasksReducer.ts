@@ -1,5 +1,6 @@
 import {TasksType} from "../App";
 import {addTodoListAC, removeTodoListAC} from "./todoListReducer";
+import {v1} from "uuid";
 
 export const tasksReducer = (state: TasksType, action: AllActionsType): TasksType => {
     switch (action.type) {
@@ -12,7 +13,7 @@ export const tasksReducer = (state: TasksType, action: AllActionsType): TasksTyp
             return {
                 ...state,
                 [action.payload.todoListID]: [{
-                    id: '4',
+                    id: v1(),
                     title: action.payload.newTitle,
                     isDone: false
                 }, ...state[action.payload.todoListID]]
