@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState, FC} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState, FC, memo} from 'react';
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -7,7 +7,7 @@ type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-const AddItemForm: FC<AddItemFormPropsType> = ({addItem}) => {
+const AddItemForm: FC<AddItemFormPropsType> = memo(({addItem}) => {
     const [error, setError] = useState<boolean>(false);
     const [titleTask, setTitle] = useState<string>('');
 
@@ -47,6 +47,6 @@ const AddItemForm: FC<AddItemFormPropsType> = ({addItem}) => {
             </IconButton>
         </div>
     );
-};
+})
 
 export default AddItemForm;

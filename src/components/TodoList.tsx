@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, FC, memo} from 'react';
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
 import Button from "@mui/material/Button";
@@ -11,36 +11,38 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import List from "@mui/material/List";
 import {TaskType} from "../state/tasksReducer";
 import {FilterValuesType} from "../state/todoListReducer";
+import {useAppSelector} from "../state/hooks/hooks";
+import {filteredTaskSelector} from "../state/selectors/tasksSelector";
 
 type TodoListPropsType = {
     todoListID: string
     title: string,
     filter: FilterValuesType
-    tasks: TaskType[],
     removeTask: (todoListID: string, taskId: string) => void,
     changeTodoListFilter: (todoListID: string, filter: FilterValuesType) => void
     addTask: (todoListID: string, title: string) => void
-    editTaskTitle: (todoListID: string, taskId: string, title: string) => void
+    changTaskTitle: (todoListID: string, taskId: string, title: string) => void
     changeTaskStatus: (todoListID: string, taskId: string, isDone: boolean) => void
     removeTodoList: (todoListID: string) => void
     editTodoListTitle: (todoListID: string, title: string) => void
 };
 
-const TodoList: React.FC<TodoListPropsType> = (props) => {
+const TodoList: FC<TodoListPropsType> = memo((props) => {
 
     const {
         title,
-        tasks,
         filter,
         todoListID,
         removeTask,
         addTask,
         changeTaskStatus,
-        editTaskTitle,
+        changTaskTitle,
         removeTodoList,
         changeTodoListFilter,
         editTodoListTitle
     } = props
+
+    const tasks = useAppSelector((state) => filteredTaskSelector(state.tasks[todoListID], filter))
 
     const onClickHandlerCreator = (filter: FilterValuesType) => () => changeTodoListFilter(todoListID, filter);
 
@@ -51,7 +53,7 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
         const changeTaskStatusCallback = (event: ChangeEvent<HTMLInputElement>) => changeTaskStatus(todoListID, task.id, event.currentTarget.checked)
 
         const changeTitle = (title: string) => {
-            editTaskTitle(todoListID, task.id, title)
+            changTaskTitle(todoListID, task.id, title)
         }
 
         return (
@@ -125,6 +127,6 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
             </div>
         </div>
     );
-};
+});
 
 export default TodoList;
